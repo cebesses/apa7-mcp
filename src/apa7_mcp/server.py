@@ -27,7 +27,7 @@ resolverlo: archivo inexistente, .doc antiguo, cifrado, control de cambios pendi
 mcp = FastMCP("apa7-tools", instructions=INSTRUCTIONS)
 
 BLOCKS = (
-    "Bloques (campo 'type'): title{text}; title_page{title,authors,affiliation,course,instructor,due_date}; "
+    "Bloques (campo 'type'): title{text}; title_page{title,authors,affiliation,course,instructor,due_date} (authors acepta texto o lista de nombres; los demás, texto);"
     "heading{level 1-5,text}; paragraph{text,indent?}; block_quote{text}; list{style:'bullet'|'numbered',items[]}; "
     "table{title,header[],rows[][],note?}; figure{title, image_path | chart{type:'bar'|'line'|'pie'|'scatter'|'hist',labels[],"
     "series[{name,values[]}],x_label?,y_label?}, width_cm?, alt?, note?}; toc{levels?,title?}; list_of_tables; list_of_figures; "

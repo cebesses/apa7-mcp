@@ -1,5 +1,6 @@
 """CLI e instalación: configuración de agentes sin tocar la real del usuario (HOME y APPDATA temporales)."""
 import json
+import os
 import subprocess
 import sys
 
@@ -63,7 +64,8 @@ def test_invalid_json_and_unknown_agent(fake_home):
 
 
 def test_cli_version_help_and_doctor():
-    run = lambda *a: subprocess.run([sys.executable, "-m", "apa7_mcp", *a], capture_output=True, text=True, encoding="utf-8", timeout=60)  # noqa: E731
+    env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
+    run = lambda *a: subprocess.run([sys.executable, "-m", "apa7_mcp", *a], capture_output=True, text=True, encoding="utf-8", timeout=60, env=env)  # noqa: E731
     v = run("--version")
     assert v.returncode == 0 and v.stdout.strip().count(".") == 2
     assert "install" in run("--help").stdout

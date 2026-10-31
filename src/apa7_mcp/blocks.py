@@ -175,8 +175,14 @@ def render_blocks(doc: DocumentT, blocks: list[Block], st: State) -> None:
             _para(doc, b["title"], align=CENTER, bold=True)
             _para(doc, "", align=CENTER)
             for k in ("authors", "affiliation", "course", "instructor", "due_date"):
-                if b.get(k):
-                    _para(doc, b[k], align=CENTER)
+                v = b.get(k)
+                if isinstance(v, (list, tuple)):  # authors puede venir como lista: «A, B y C» / «A, B, and C»
+                    v = [str(x).strip() for x in v if str(x).strip()]
+                    conj = L.current().narr_and
+                    v = (v[0] if len(v) == 1 else f"{v[0]} {conj} {v[1]}" if len(v) == 2
+                         else f"{', '.join(v[:-1])}{',' if conj == 'and' else ''} {conj} {v[-1]}") if v else ""
+                if v:
+                    _para(doc, str(v), align=CENTER)
             doc.add_page_break()
         elif t == "heading":
             lvl = int(b["level"])
