@@ -588,5 +588,49 @@
   "title": "Signos emparejados",
   "description": "Paréntesis, comillas y signos de interrogación/exclamación se abren y se cierran.",
   "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "est-006",
+  "category": "estructura",
+  "title": "Sin encabezado «Introducción»",
+  "description": "El cuerpo del trabajo empieza en página nueva con el título del trabajo centrado y en negrita; no se rotula «Introducción».",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Título del trabajo (centrado, negrita) y luego el texto",
+   "incorrect": "Introducción (como encabezado)"
+  }
+ },
+ {
+  "id": "est-007",
+  "category": "estructura",
+  "title": "Tabla de contenido no exigida",
+  "description": "Los trabajos y artículos APA 7 no requieren tabla de contenido ni índices; solo por reglamento institucional.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Sin tabla de contenido",
+   "incorrect": "Tabla de contenido en un artículo"
+  }
+ },
+ {
+  "id": "abr-002",
+  "category": "texto",
+  "title": "Siglas con paréntesis",
+  "description": "En texto corrido la sigla se define entre paréntesis; los corchetes solo dentro de un paréntesis.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Organización de las Naciones Unidas (ONU)",
+   "incorrect": "Organización de las Naciones Unidas [ONU]"
+  }
+ },
+ {
+  "id": "fig-003",
+  "category": "tablas_figuras",
+  "title": "Sin «Elaboración propia»",
+  "description": "No se escribe «Elaboración propia»: lo que no cita fuente externa se entiende del autor.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Nota. Datos de Pérez (2020).",
+   "incorrect": "Nota. Elaboración propia."
+  }
  }
 ]

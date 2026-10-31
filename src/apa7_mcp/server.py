@@ -19,6 +19,9 @@ Revisión de redacción: apa7_extract_text entrega los párrafos; usted corrige 
 Fuentes: apa7_verify_references comprueba que las referencias existen (DOI, Crossref, Open Library) pero envía datos a servicios
 externos: pida permiso al usuario y use confirm_external=true. 'doi_inexistente' o 'no_coincide' son señales fuertes de referencia inventada.
 Portada, resumen y encabezado abreviado son opcionales en APA 7: no los agregue si el usuario no los pide.
+Trabajo de estudiante (portada con estudiante, curso, docente): NO use running_head (solo número de página), sin 'Introducción' como título
+(el texto inicia con el título del trabajo), sin tabla de contenido salvo que la institución la pida, siglas con paréntesis (corchetes solo dentro de un paréntesis),
+sin 'Elaboración propia' en notas. Los niveles 4 y 5 son títulos en línea (el texto sigue en el mismo renglón tras el punto).
 Para contenido nuevo (tablas, figuras, gráficos, listas, TOC, portada) use apa7_insert_blocks o apa7_build_document.
 Nunca sobrescribe el original. Todas las herramientas devuelven ok=true/false; si ok=false lea error.code y error.hint (explican cómo
 resolverlo: archivo inexistente, .doc antiguo, cifrado, control de cambios pendiente…). Si algo falla de forma rara, use apa7_doctor.

@@ -10,7 +10,7 @@ from . import lang as L
 from . import options as O
 from . import rules, textrules
 from .rules import issue
-from .scan import PInfo, W, clear_cache, eff_align, eff_first, eff_line, eff_size, scan, styles_of
+from .scan import PInfo, W, clear_cache, has_toc, eff_align, eff_first, eff_line, eff_size, scan, styles_of
 from .wordfmt import (ABSTRACT, APPENDIX, CAPTION, REF_HEADING, _ref_key, has_page_numbers, lang_is_spanish, reference_italic_missing, stat_unitalic,
                       reference_range)
 
@@ -226,6 +226,27 @@ def _structure(doc, infos: list[PInfo]) -> list[dict]:
         nxt = next((pi for pi in infos[ab + 1:] if pi.text), None)
         if nxt is not None and eff_first(nxt, st) > 0:
             out.append(issue("abs-001", "estructura", "warning", "La primera línea del resumen va sin sangría.", autofix=True))
+
+    for pi in infos:
+        if 1 <= pi.level <= 5 and re.fullmatch(r"(?:\d+(?:\.\d+)*[.)]?\s*)?(?:introducci[óo]n|introduction)\.?", pi.text, re.I):
+            out.append(issue("est-006", "estructura", "warning",
+                             f'APA 7 no usa el encabezado «{pi.text}»: el texto inicia en página nueva con el título del trabajo centrado en negrita.',
+                             original=pi.text))
+            break
+    if has_toc(doc):
+        out.append(issue("est-007", "estructura", "info",
+                         "Tiene tabla de contenido: APA 7 no la exige en trabajos ni artículos; manténgala solo si la institución la pide."))
+    paren_alone = [m.group(0) for pi in infos for m in re.finditer(r"\[[A-ZÁÉÍÓÚÑ]{2,8}\]", pi.text)
+                   if pi.text.rfind("(", 0, m.start()) <= pi.text.rfind(")", 0, m.start())]
+    if paren_alone:
+        out.append(issue("abr-002", "texto", "warning",
+                         f"La sigla {paren_alone[0]} va entre corchetes en texto corrido: use paréntesis, Nombre completo (SIGLA); "
+                         "los corchetes solo se usan si la sigla se define dentro de un paréntesis.", original=paren_alone[0]))
+    own = next((pi.text for pi in infos if re.search(r"\b(?:elaboraci[óo]n propia|fuente propia|own (?:work|elaboration))\b", pi.text, re.I)), None)
+    if own:
+        out.append(issue("fig-003", "tablas_figuras", "info",
+                         "«Elaboración propia» sobra: en APA 7 una tabla o figura sin cita externa se entiende creada por el autor.",
+                         original=own[:80]))
 
     rr_stats = reference_range(infos)
     unital = sum(stat_unitalic(pi.el) for pi in infos if pi.text and not (rr_stats and rr_stats[0] <= pi.i < rr_stats[1]))
