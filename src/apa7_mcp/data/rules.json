@@ -1,0 +1,592 @@
+[
+ {
+  "id": "fmt-001",
+  "category": "formato",
+  "title": "Tamaño de papel Carta",
+  "description": "Tamaño carta / papel 21.59 cm x 27.94 cm (8.5 x 11 pulg.).",
+  "source": "Manual Javeriano §1"
+ },
+ {
+  "id": "fmt-002",
+  "category": "formato",
+  "title": "Márgenes de 2.54 cm",
+  "description": "Márgenes de 2.54 cm (1 pulgada) en los cuatro lados.",
+  "source": "Manual Javeriano §1"
+ },
+ {
+  "id": "fmt-003",
+  "category": "formato",
+  "title": "Fuentes y tamaños permitidos",
+  "description": "Times New Roman 12; Georgia 11; Computer Modern 10; Calibri 11; Arial 11; Lucida Sans Unicode 10. Use la misma fuente en todo el documento.",
+  "source": "Manual Javeriano §1"
+ },
+ {
+  "id": "fmt-005",
+  "category": "formato",
+  "title": "Interlineado doble",
+  "description": "Interlineado 2.0 y sin espacio adicional entre párrafos. Excepciones: cuerpo de tablas/figuras y notas al pie.",
+  "source": "Manual Javeriano §1"
+ },
+ {
+  "id": "fmt-006",
+  "category": "formato",
+  "title": "Alineación a la izquierda",
+  "description": "Texto alineado a la izquierda, sin justificar (margen derecho irregular).",
+  "source": "Guía normas-apa.org (Formato)"
+ },
+ {
+  "id": "fmt-007",
+  "category": "formato",
+  "title": "Sangría de primera línea",
+  "description": "Sangría de 1.27 cm (0.5 pulg.) en la primera línea de cada párrafo.",
+  "source": "Manual Javeriano §1"
+ },
+ {
+  "id": "fmt-008",
+  "category": "formato",
+  "title": "Numeración de páginas",
+  "description": "Número de página en el extremo superior derecho, en números arábigos, en todas las páginas (la portada es la página 1).",
+  "source": "Manual Javeriano §1 / Guía normas-apa.org"
+ },
+ {
+  "id": "tit-001",
+  "category": "titulos",
+  "title": "Cinco niveles de título",
+  "description": "Nivel 1: centrado, negrita. Nivel 2: izquierda, negrita. Nivel 3: izquierda, negrita y cursiva. Nivel 4: párrafo con sangría, negrita, punto final. Nivel 5: párrafo con sangría, negrita, cursiva, punto final. Todos con mayúscula inicial en cada palabra principal.",
+  "source": "Manual Javeriano §1.3 / Guía normas-apa.org"
+ },
+ {
+  "id": "tit-002",
+  "category": "titulos",
+  "title": "No numerar títulos",
+  "description": "No etiquete los títulos y subtítulos con números o letras.",
+  "source": "Guía normas-apa.org (Títulos)"
+ },
+ {
+  "id": "tit-003",
+  "category": "titulos",
+  "title": "Titulillo (running head) ≤ 50 caracteres",
+  "description": "Para trabajos profesionales: título abreviado en MAYÚSCULAS, máximo 50 caracteres, alineado a la izquierda. Ya no se escribe 'Titulillo:' ni 'Running head'.",
+  "source": "Guía normas-apa.org (Encabezado)"
+ },
+ {
+  "id": "cit-001",
+  "category": "citacion",
+  "title": "Sistema Autor-Fecha",
+  "description": "Las citas usan el sistema Autor-Fecha. Cita narrativa: Quintero (2020) plantea…; cita parentética: (Quintero, 2020).",
+  "source": "Manual Javeriano §3"
+ },
+ {
+  "id": "cit-002",
+  "category": "citacion",
+  "title": "Uso de 'y' (no '&')",
+  "description": "En español se usa 'y' para unir al último autor en citas narrativas y parentéticas.",
+  "examples": {
+   "correct": "(Rodríguez y Sánchez, 2013)",
+   "incorrect": "(Rodríguez & Sánchez, 2013)"
+  },
+  "source": "Manual Javeriano §3.3"
+ },
+ {
+  "id": "cit-003",
+  "category": "citacion",
+  "title": "Un autor",
+  "description": "Un autor: apellido(s) y año.",
+  "examples": {
+   "correct": "López González (2019) / (López González, 2019)"
+  },
+  "source": "Manual Javeriano §3.3"
+ },
+ {
+  "id": "cit-004",
+  "category": "citacion",
+  "title": "Dos autores",
+  "description": "Dos autores: ambos apellidos unidos por 'y'.",
+  "examples": {
+   "correct": "Rodríguez y Sánchez (2013) / (Rodríguez y Sánchez, 2013)"
+  },
+  "source": "Manual Javeriano §3.3"
+ },
+ {
+  "id": "cit-005",
+  "category": "citacion",
+  "title": "Tres o más autores: et al.",
+  "description": "Tres o más autores: apellido del primero + 'et al.' desde la primera cita.",
+  "examples": {
+   "correct": "Barton et al. (2016) / (Barton et al., 2016)"
+  },
+  "source": "Manual Javeriano §3.3"
+ },
+ {
+  "id": "cit-006",
+  "category": "citacion",
+  "title": "Cita textual corta (< 40 palabras)",
+  "description": "Menos de 40 palabras: integrada al párrafo, entre comillas, con página (p.) y punto al final de la oración.",
+  "examples": {
+   "correct": "… 'una vía de escape' (Kaplan y Szapu, 2019, p. 111)."
+  },
+  "source": "Manual Javeriano §3.1.1"
+ },
+ {
+  "id": "cit-007",
+  "category": "citacion",
+  "title": "Cita textual larga (> 40 palabras)",
+  "description": "Más de 40 palabras: bloque aparte, sangría de 1.27 cm, sin comillas, punto antes del paréntesis.",
+  "examples": {
+   "correct": "… (p. 111)  → punto antes del paréntesis"
+  },
+  "source": "Manual Javeriano §3.1.2"
+ },
+ {
+  "id": "cit-008",
+  "category": "citacion",
+  "title": "Página única vs rango (p. / pp.)",
+  "description": "Una página: 'p.' (p. 23); más de una: 'pp.' con rango (pp. 23-24).",
+  "source": "Manual Javeriano §3.1.2 (nota)"
+ },
+ {
+  "id": "cit-009",
+  "category": "citacion",
+  "title": "Parafraseo",
+  "description": "El parafraseo requiere autor y año; la página es recomendada (no obligatoria).",
+  "examples": {
+   "correct": "(Kaplan y Szapu, 2019)"
+  },
+  "source": "Manual Javeriano §3.2"
+ },
+ {
+  "id": "cit-010",
+  "category": "citacion",
+  "title": "Autor corporativo con sigla",
+  "description": "Primera cita: nombre completo (Sigla, año). Siguientes: Sigla (año).",
+  "examples": {
+   "correct": "(Organización Mundial de la Salud [OMS], 2015) → (OMS, 2015)"
+  },
+  "source": "Manual Javeriano §3.3.4"
+ },
+ {
+  "id": "cit-011",
+  "category": "citacion",
+  "title": "Varias obras en el mismo paréntesis",
+  "description": "Orden alfabético según la lista de referencias, separadas por punto y coma (;).",
+  "examples": {
+   "correct": "(Cardozo, 2020; Chocarro y Garaigordobil, 2019)"
+  },
+  "source": "Manual Javeriano §3.4.1"
+ },
+ {
+  "id": "cit-012",
+  "category": "citacion",
+  "title": "Mismo autor y año: letras",
+  "description": "Varias obras del mismo autor y año: se agregan letras (2019a, 2019b) en orden de aparición.",
+  "examples": {
+   "correct": "Douglas (2019a) … Douglas (2019b)"
+  },
+  "source": "Manual Javeriano §3.4.2"
+ },
+ {
+  "id": "cit-013",
+  "category": "citacion",
+  "title": "Mismo autor, distinto año",
+  "description": "Años separados por ';' de menos reciente a más reciente.",
+  "examples": {
+   "correct": "(Jodelet, 1984; 1986)"
+  },
+  "source": "Manual Javeriano §3.4.3"
+ },
+ {
+  "id": "cit-014",
+  "category": "citacion",
+  "title": "Reedición/traducción (dos fechas)",
+  "description": "Dos fechas separadas por barra: (Piaget, 1966/2000).",
+  "source": "Manual Javeriano §3.4.5"
+ },
+ {
+  "id": "cit-015",
+  "category": "citacion",
+  "title": "Obra sin autor",
+  "description": "Sin autor: primeras palabras del título entre comillas y el año. Si está firmada 'Anónimo', usar 'Anónimo'.",
+  "examples": {
+   "correct": "(\"Informe Anual\", 2013)"
+  },
+  "source": "Manual Javeriano §3.4.6"
+ },
+ {
+  "id": "cit-016",
+  "category": "citacion",
+  "title": "Obra sin fecha (s.f.)",
+  "description": "Sin fecha: usar 's.f.'.",
+  "examples": {
+   "correct": "Pulido (s.f.)"
+  },
+  "source": "Manual Javeriano §3.4.7"
+ },
+ {
+  "id": "cit-017",
+  "category": "citacion",
+  "title": "Material sin paginación (párr.)",
+  "description": "Sin página: usar número de párrafo 'párr.' o marca de tiempo (25:36).",
+  "examples": {
+   "correct": "(Basu y Jones, 2007, párr. 4)"
+  },
+  "source": "Manual Javeriano §3.4.8"
+ },
+ {
+  "id": "cit-018",
+  "category": "citacion",
+  "title": "Cita de una cita (fuente secundaria)",
+  "description": "Fuente primaria + 'como se citó en' + fuente secundaria. Solo la secundaria va en referencias.",
+  "examples": {
+   "correct": "(Ayala, 1983, como se citó en Sánchez, 2009)"
+  },
+  "source": "Manual Javeriano §3.4.9 / Guía normas-apa.org"
+ },
+ {
+  "id": "cit-019",
+  "category": "citacion",
+  "title": "Comunicación personal",
+  "description": "Comunicación personal: inicial + apellido, fecha exacta, SIN entrada en referencias.",
+  "examples": {
+   "correct": "M. González (comunicación personal, 17 de mayo, 2020)"
+  },
+  "source": "Manual Javeriano §3.5.2"
+ },
+ {
+  "id": "ref-000",
+  "category": "referencias",
+  "title": "Cuatro elementos de la referencia",
+  "description": "Autor (quién), Fecha (cuándo), Título (qué), Fuente (dónde).",
+  "source": "Manual Javeriano §4.1"
+ },
+ {
+  "id": "ref-001",
+  "category": "referencias",
+  "title": "Sin 'Recuperado de'",
+  "description": "La 7.ª edición eliminó 'Recuperado de' y 'DOI:' en las referencias; use el enlace directo.",
+  "source": "Manual Javeriano §4.4"
+ },
+ {
+  "id": "ref-002",
+  "category": "referencias",
+  "title": "Sin ciudad/país de la editorial",
+  "description": "El lugar de publicación (ciudad, país) ya no se incluye.",
+  "source": "Manual Javeriano §4.3.1"
+ },
+ {
+  "id": "ref-003",
+  "category": "referencias",
+  "title": "Autor en referencias: 'y' sin coma",
+  "description": "En español, el último autor se une con 'y' (no precedida de coma). En otros idiomas se usa '&'.",
+  "examples": {
+   "correct": "Ramírez Osorio, L. S. y López Gil, K. S. (2018)"
+  },
+  "source": "Manual Javeriano §5 (Adaptaciones)"
+ },
+ {
+  "id": "ref-004",
+  "category": "referencias",
+  "title": "Hasta 20 autores",
+  "description": "Liste hasta 20 autores. Con 21 o más: primeros 19 + puntos suspensivos + último autor (sin 'y').",
+  "source": "Manual Javeriano §4.2"
+ },
+ {
+  "id": "ref-005",
+  "category": "referencias",
+  "title": "Sin autor: título primero",
+  "description": "Sin autor, la referencia inicia con el título de la obra.",
+  "source": "Manual Javeriano §4.2"
+ },
+ {
+  "id": "ref-006",
+  "category": "referencias",
+  "title": "Libro",
+  "description": "Apellido, A. A. (Año). Título en cursiva (edición). Editorial. URL/DOI.",
+  "examples": {
+   "correct": "Ramírez Osorio, L. S. y López Gil, K. S. (2018). Orientar la escritura a través del currículo en la universidad. Sello Editorial Javeriano."
+  },
+  "source": "Manual Javeriano §4.3.1"
+ },
+ {
+  "id": "ref-007",
+  "category": "referencias",
+  "title": "Capítulo de libro",
+  "description": "Apellido, A. A. (Año). Título del capítulo. En A. A. Apellido (Ed.), Título del libro (pp. ##-##). Editorial.",
+  "source": "Manual Javeriano §4.3.1"
+ },
+ {
+  "id": "ref-008",
+  "category": "referencias",
+  "title": "Artículo de revista",
+  "description": "Apellido, A. A. (Fecha). Título del artículo. Nombre de la revista, volumen(número), pp-pp. DOI/URL.",
+  "examples": {
+   "correct": "Gallego-Montes, G. (2020). Prostitución en contextos de conflicto armado en Colombia. Revista CS, 31, 413-437."
+  },
+  "source": "Manual Javeriano §4.3.2"
+ },
+ {
+  "id": "ref-009",
+  "category": "referencias",
+  "title": "Artículo de periódico",
+  "description": "Apellido, A. A. (Fecha). Título del artículo. Nombre del periódico. URL.",
+  "source": "Manual Javeriano §4.3.3"
+ },
+ {
+  "id": "ref-010",
+  "category": "referencias",
+  "title": "Página web",
+  "description": "Autor. (Fecha). Título. Nombre del sitio web. URL. Sin autor individual, el sitio pasa a ser el autor.",
+  "examples": {
+   "correct": "Organización Mundial de la Salud [OMS]. (2017, 1 de abril). Malnutrición. https://www.who.int/…"
+  },
+  "source": "Manual Javeriano §4.4.1"
+ },
+ {
+  "id": "ref-011",
+  "category": "referencias",
+  "title": "Tesis",
+  "description": "Apellido, A. (Año). Título [Tesis de pregrado/maestría/doctoral, Institución]. Base de datos. URL.",
+  "source": "Manual Javeriano §4.3.6"
+ },
+ {
+  "id": "ref-012",
+  "category": "referencias",
+  "title": "Informe gubernamental",
+  "description": "Organización. (Año). Título del informe (Número de la publicación). URL.",
+  "source": "Manual Javeriano §4.3.4"
+ },
+ {
+  "id": "ref-013",
+  "category": "referencias",
+  "title": "Película / serie / video / podcast",
+  "description": "Apellido, A. (Director/Productor). (Año). Título [Película/Serie/Video/Podcast]. Productora. URL.",
+  "source": "Manual Javeriano §4.4.2-4.4.6"
+ },
+ {
+  "id": "ref-014",
+  "category": "referencias",
+  "title": "Redes sociales",
+  "description": "Autor [@usuario]. (Fecha). Contenido (máx. 20 palabras) [Tweet/Publicación/Fotografía]. Sitio. URL.",
+  "source": "Manual Javeriano §4.4.7"
+ },
+ {
+  "id": "ref-015",
+  "category": "referencias",
+  "title": "Referencias legales (adaptación)",
+  "description": "Leyes: Nombre de la ley. (Fecha). Fuente. Número. URL. Sentencias y tratados siguen formato Título-Fuente-Fecha.",
+  "source": "Manual Javeriano §4.5"
+ },
+ {
+  "id": "ref-016",
+  "category": "referencias",
+  "title": "Formato de la lista de referencias",
+  "description": "Título 'Referencias' centrado y en negrita; sangría francesa de 1.27 cm; orden alfabético por apellido del primer autor; interlineado 2.0.",
+  "source": "Manual Javeriano §4 / Guía normas-apa.org"
+ },
+ {
+  "id": "tab-001",
+  "category": "tablas_figuras",
+  "title": "Componentes de tabla/figura",
+  "description": "Número (negrita), título descriptivo (cursiva), contenido, nota. Mencionar por su número en el texto (Tabla 1, Figura 2).",
+  "source": "Manual Javeriano §2"
+ },
+ {
+  "id": "tab-002",
+  "category": "tablas_figuras",
+  "title": "Bordes de tabla",
+  "description": "Solo bordes horizontales (superior, inferior y bajo encabezados). Sin bordes verticales.",
+  "source": "Guía normas-apa.org (Tablas)"
+ },
+ {
+  "id": "tab-003",
+  "category": "tablas_figuras",
+  "title": "Atribución en la nota",
+  "description": "Nota. Adaptado de … (autor, año, fuente). Tipo de licencia (ej. CC BY 2.0).",
+  "source": "Guía normas-apa.org (Figuras)"
+ },
+ {
+  "id": "est-004",
+  "category": "estructura",
+  "title": "Referencias en página nueva",
+  "description": "La lista de referencias comienza en una página nueva.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "est-005",
+  "category": "estructura",
+  "title": "Título «Referencias»",
+  "description": "El título de la sección es «Referencias» (no «Bibliografía»), centrado y en negrita.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "abs-001",
+  "category": "estructura",
+  "title": "Resumen sin sangría",
+  "description": "El resumen va en un párrafo sin sangría; «Palabras clave:» en cursiva, con sangría.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "fig-002",
+  "category": "tablas_figuras",
+  "title": "Texto alternativo",
+  "description": "Las imágenes llevan texto alternativo (accesibilidad).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "fmt-009",
+  "category": "formato",
+  "title": "Sin guionado automático",
+  "description": "No se dividen palabras con guiones automáticos.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "fmt-010",
+  "category": "formato",
+  "title": "Texto en negro",
+  "description": "El texto va en color negro (salvo enlaces y elementos gráficos).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "num-001",
+  "category": "texto",
+  "title": "Números en letras",
+  "description": "Del cero al nueve se escribe con letras al contar elementos; desde 10, con cifras.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "tres participantes",
+   "incorrect": "3 participantes"
+  }
+ },
+ {
+  "id": "abr-001",
+  "category": "texto",
+  "title": "Siglas definidas",
+  "description": "Defina la sigla la primera vez: nombre completo y la sigla entre paréntesis.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Organización Mundial de la Salud (OMS)",
+   "incorrect": "OMS (sin definir)"
+  }
+ },
+ {
+  "id": "est-001",
+  "category": "estructura",
+  "title": "Sección de referencias",
+  "description": "Si el texto tiene citas debe existir la sección «Referencias» (References).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "est-002",
+  "category": "estructura",
+  "title": "Número de página",
+  "description": "Todas las páginas llevan el número arriba a la derecha (también la primera).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "fig-001",
+  "category": "tablas_figuras",
+  "title": "Rótulo de figura",
+  "description": "Cada figura lleva «Figura N» en negrita y debajo su título en cursiva, encima de la figura.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Figura 1 / *Título*",
+   "incorrect": "figura sin rótulo"
+  }
+ },
+ {
+  "id": "tbl-001",
+  "category": "tablas_figuras",
+  "title": "Rótulo de tabla",
+  "description": "Cada tabla lleva «Tabla N» en negrita y debajo su título en cursiva, encima de la tabla.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Tabla 1 / *Título*",
+   "incorrect": "tabla sin rótulo"
+  }
+ },
+ {
+  "id": "fmt-004",
+  "category": "formato",
+  "title": "Tamaño de fuente",
+  "description": "El tamaño depende de la fuente: Times New Roman 12, Calibri 11, Arial 11, Georgia 11, Aptos 11, Lucida Sans Unicode 10, Computer Modern 10.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "ref-017",
+  "category": "referencias",
+  "title": "Cursiva en referencias",
+  "description": "Título en cursiva (libros, informes, tesis, páginas web); revista y volumen en cursiva (artículos).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "*Título del libro*",
+   "incorrect": "Título del libro"
+  }
+ },
+ {
+  "id": "ref-018",
+  "category": "referencias",
+  "title": "Mismo autor y año",
+  "description": "Varias obras del mismo autor y año se distinguen con letras: 2020a, 2020b (en la lista y en las citas).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "(2020a)",
+   "incorrect": "(2020)"
+  }
+ },
+ {
+  "id": "stat-001",
+  "category": "texto",
+  "title": "Símbolos estadísticos en cursiva",
+  "description": "Los símbolos estadísticos (p, M, SD, t, F, r, n, N…) se escriben en cursiva.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "*p* < .05",
+   "incorrect": "p < .05"
+  }
+ },
+ {
+  "id": "stat-002",
+  "category": "texto",
+  "title": "Cero inicial en p y r",
+  "description": "En p y r (no superan 1) se omite el cero inicial: p = .05.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "p = .05",
+   "incorrect": "p = 0.05"
+  }
+ },
+ {
+  "id": "txt-001",
+  "category": "texto",
+  "title": "Palabra repetida",
+  "description": "Evite repetir una palabra seguida (de de, the the).",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "txt-002",
+  "category": "texto",
+  "title": "Espacios dobles",
+  "description": "Un solo espacio entre palabras.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "txt-003",
+  "category": "texto",
+  "title": "Espacio antes de puntuación",
+  "description": "No se deja espacio antes de coma, punto y coma ni punto.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "txt-004",
+  "category": "texto",
+  "title": "Espacio tras la coma",
+  "description": "Se deja un espacio después de la coma y del punto y coma.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ },
+ {
+  "id": "txt-005",
+  "category": "texto",
+  "title": "Signos emparejados",
+  "description": "Paréntesis, comillas y signos de interrogación/exclamación se abren y se cierran.",
+  "source": "Manual/Guía APA 7 (español) y apastyle.apa.org"
+ }
+]
