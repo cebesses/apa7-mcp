@@ -11,7 +11,7 @@ from . import options as O
 from . import rules, textrules
 from .rules import issue
 from .scan import PInfo, W, clear_cache, has_toc, eff_align, eff_first, eff_line, eff_size, scan, styles_of
-from .wordfmt import (ABSTRACT, APPENDIX, CAPTION, REF_HEADING, _ref_key, has_page_numbers, lang_is_spanish, reference_italic_missing, stat_unitalic,
+from .wordfmt import (ABSTRACT, APPENDIX, CAPTION, REF_HEADING, _ref_key, has_page_numbers, lang_is_spanish, reference_italic_missing, title_page_extra_blanks, KEYWORDS, stat_unitalic,
                       reference_range)
 
 EMU_CM = 360000
@@ -162,6 +162,19 @@ def measure(doc, infos: list[PInfo]) -> dict:
     }
 
 
+def _italic_not_bold(p_el) -> bool:
+    runs = [r for r in p_el.iter(W + "r") if "".join(t.text or "" for t in r.iter(W + "t")).strip()]
+    def on(r, tag):
+        e = r.find(W + "rPr/" + W + tag)
+        return e is not None and e.get(W + "val") not in ("0", "false")
+    return bool(runs) and all(on(r, "i") for r in runs) and not any(on(r, "b") for r in runs)
+
+
+def _spacing_extra(p_el) -> bool:
+    sp = p_el.find(W + "pPr/" + W + "spacing")
+    return sp is not None and any(int(sp.get(W + k) or 0) > 0 for k in ("before", "after"))
+
+
 def _structure(doc, infos: list[PInfo]) -> list[dict]:
     st = styles_of(doc)
     lg = L.current()
@@ -247,6 +260,34 @@ def _structure(doc, infos: list[PInfo]) -> list[dict]:
         out.append(issue("fig-003", "tablas_figuras", "info",
                          "«Elaboración propia» sobra: en APA 7 una tabla o figura sin cita externa se entiende creada por el autor.",
                          original=own[:80]))
+
+    for pi in infos:
+        if pi.level in (4, 5) and pi.text:
+            nxt = next((x for x in infos[pi.i + 1:pi.i + 2]), None)
+            if nxt is not None and nxt.text and not nxt.level and pi.el.getnext() is nxt.el:
+                out.append(issue("tit-004", "titulos", "warning",
+                                 f"Los títulos de nivel 4 y 5 van en línea: «{pi.text[:40]}.» en negrita y el texto sigue en el mismo renglón.",
+                                 original=pi.text[:60], autofix=True))
+                break
+    bad_h = next((pi.text for pi in infos if 1 <= pi.level <= 5 and pi.text and _italic_not_bold(pi.el)), None)
+    if bad_h:
+        out.append(issue("tit-005", "titulos", "warning",
+                         f"El título «{bad_h[:40]}» está en cursiva sin negrita: en APA 7 todos los niveles llevan negrita.",
+                         original=bad_h[:60], autofix=True))
+    kw = next((pi for pi in infos if KEYWORDS.match(pi.text)), None)
+    if kw is not None and eff_first(kw, st) <= 0:
+        out.append(issue("abs-002", "estructura", "warning",
+                         "La línea de palabras clave va con sangría de primera línea de 1.27 cm.", autofix=True))
+    rr2 = reference_range(infos)
+    spaced = [pi for pi in (infos[rr2[0] + 1:rr2[1]] if rr2 else []) if pi.text and _spacing_extra(pi.el)]
+    if spaced:
+        out.append(issue("ref-019", "referencias", "warning",
+                         f"{len(spaced)} referencia(s) con espacio extra antes o después del párrafo: APA 7 usa interlineado doble continuo.",
+                         autofix=True))
+    n_blank = len(title_page_extra_blanks(infos))
+    if n_blank:
+        out.append(issue("est-008", "estructura", "warning",
+                         f"Portada con {n_blank} línea(s) en blanco de más: deje una sola línea en blanco entre el título y el autor.", autofix=True))
 
     rr_stats = reference_range(infos)
     unital = sum(stat_unitalic(pi.el) for pi in infos if pi.text and not (rr_stats and rr_stats[0] <= pi.i < rr_stats[1]))

@@ -632,5 +632,60 @@
    "correct": "Nota. Datos de Pérez (2020).",
    "incorrect": "Nota. Elaboración propia."
   }
+ },
+ {
+  "id": "tit-004",
+  "category": "titulos",
+  "title": "Niveles 4 y 5 en línea",
+  "description": "Nivel 4: sangría, negrita, punto final; nivel 5: negrita cursiva. El texto continúa en el mismo renglón.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Muestra inicial. Se evaluó a…",
+   "incorrect": "Muestra inicial (en línea aparte)"
+  }
+ },
+ {
+  "id": "tit-005",
+  "category": "titulos",
+  "title": "Títulos siempre en negrita",
+  "description": "Ningún nivel de título usa cursiva sin negrita (el nivel 3 y 5 son negrita cursiva).",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Uso de números (negrita)",
+   "incorrect": "Uso de números (solo cursiva)"
+  }
+ },
+ {
+  "id": "abs-002",
+  "category": "estructura",
+  "title": "Sangría en palabras clave",
+  "description": "La línea «Palabras clave:» lleva sangría de primera línea de 1.27 cm.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "    Palabras clave: a, b",
+   "incorrect": "Palabras clave: a, b (al margen)"
+  }
+ },
+ {
+  "id": "ref-019",
+  "category": "referencias",
+  "title": "Referencias sin espacio extra",
+  "description": "Interlineado doble continuo, sin espacio antes o después entre entradas.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Entradas contiguas a doble espacio",
+   "incorrect": "Espacio de 10 pt entre entradas"
+  }
+ },
+ {
+  "id": "est-008",
+  "category": "estructura",
+  "title": "Portada: una línea entre título y autor",
+  "description": "En la portada de estudiante hay una sola línea en blanco entre el título y el nombre del autor.",
+  "source": "Guía APA 7 (español) y apastyle.apa.org",
+  "examples": {
+   "correct": "Título, línea en blanco, autor",
+   "incorrect": "Título, 3-4 líneas en blanco, autor"
+  }
  }
 ]

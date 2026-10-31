@@ -404,6 +404,47 @@ def fix_paragraphs(doc: DocumentT) -> dict[str, int]:
     return counts
 
 
+def merge_inline_headings(doc: DocumentT) -> int:
+    """Niveles 4 y 5 de APA 7 son títulos en línea: «Título.» en negrita (nivel 5 también cursiva) y el texto sigue en el mismo renglón.
+    Une cada título de nivel 4/5 con el párrafo de texto que le sigue y lo deja como párrafo normal (ya no es un Heading)."""
+    infos = scan(doc)
+    by_el = {id(pi.el): pi for pi in infos}
+    n = 0
+    for pi in infos:
+        if pi.level not in (4, 5) or not pi.text or pi.in_table:
+            continue
+        nxt_el = pi.el.getnext()
+        nxt = by_el.get(id(nxt_el))
+        if (nxt is None or not nxt.text or nxt.level or nxt.listy or nxt.in_table or CAPTION.match(nxt.text) or KEYWORDS.match(nxt.text)
+                or ABSTRACT.match(nxt.text) or REF_HEADING.match(nxt.text)):
+            continue
+        ts = [t for t in pi.el.iter(T) if t.text]
+        if ts and not ts[-1].text.rstrip().endswith((".", "?", "!", ":")):
+            ts[-1].text = ts[-1].text.rstrip() + "."
+        p = pi.p
+        fix_runs(p, bold=True, italic=pi.level == 5)
+        old_ppr, new_ppr = pi.el.find(W + "pPr"), nxt_el.find(W + "pPr")
+        if old_ppr is not None:
+            pi.el.remove(old_ppr)
+        if new_ppr is not None:
+            pi.el.insert(0, deepcopy(new_ppr))
+        sep = OxmlElement("w:r")
+        t = OxmlElement("w:t")
+        t.text = " "
+        t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+        sep.append(t)
+        pi.el.append(sep)
+        for child in list(nxt_el):
+            if child.tag != W + "pPr":
+                pi.el.append(child)
+        nxt_el.getparent().remove(nxt_el)
+        format_body(p)
+        n += 1
+    if n:
+        clear_cache()
+    return n
+
+
 def promote_headings(doc: DocumentT) -> int:
     """Si el documento no usa estilos de título, convierte los párrafos que parecen título en Heading 1-5."""
     infos = scan(doc)
@@ -854,3 +895,45 @@ def fix_block_quotes(doc: DocumentT) -> int:
 
 
 RPR_TAG = W + "rPr"
+
+
+# ------------------------------------------------------------------ portada
+
+
+def _title_page_range(infos: list[PInfo]) -> tuple[int, int] | None:
+    """Posiciones (ini, fin) de la portada: lo que hay antes del primer salto de página, si ocurre en los primeros 20 párrafos."""
+    for k, pi in enumerate(infos[:20]):
+        brk = any(b.get(W + "type") == "page" for b in pi.el.iter(W + "br"))
+        nxt_pb = k + 1 < len(infos) and infos[k + 1].page_break_before
+        if brk or nxt_pb:
+            body = [x for x in infos[:k + 1] if x.text]
+            return (0, k + 1) if len(body) >= 2 else None
+    return None
+
+
+def title_page_extra_blanks(infos: list[PInfo]) -> list[PInfo]:
+    """Párrafos vacíos sobrantes dentro de la portada: entre el título y el autor APA 7 deja una sola línea en blanco."""
+    rng = _title_page_range(infos)
+    if not rng:
+        return []
+    page = infos[rng[0]:rng[1]]
+    first = next((k for k, x in enumerate(page) if x.text), None)
+    if first is None:
+        return []
+    extra, run = [], []
+    for x in page[first:]:
+        if x.text or any(b.get(W + "type") == "page" for b in x.el.iter(W + "br")):
+            extra += run[1:]
+            run = []
+        else:
+            run.append(x)
+    return extra
+
+
+def fix_title_page_spacing(doc: DocumentT) -> int:
+    extra = title_page_extra_blanks(scan(doc))
+    for x in extra:
+        x.el.getparent().remove(x.el)
+    if extra:
+        clear_cache()
+    return len(extra)

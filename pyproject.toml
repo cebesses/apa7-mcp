@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apa7-tools"
-version = "2.3.0"
+version = "2.4.0"
 description = "Herramientas APA 7 (7.ª ed.) para agentes de IA vía MCP: analiza, corrige, construye y valida documentos Word."
 readme = "README.md"
 license = { text = "MIT" }

@@ -129,6 +129,12 @@ def apply_apa(input_path: str, output_path: str | None = None, *, running_head: 
     changes.append(f"Párrafos: {c['body']} con sangría de 1.27 cm, {c['headings']} títulos, {c['references']} referencias con sangría francesa"
                    + (f", {c['abstract']} de resumen/palabras clave" if c["abstract"] else "")
                    + (f", {c['appendix']} apéndice(s)" if c["appendix"] else "") + ".")
+    mi = W.merge_inline_headings(doc)
+    if mi:
+        changes.append(f"{mi} título(s) de nivel 4/5 puesto(s) en línea con su párrafo (negrita, punto final).")
+    tp = W.fix_title_page_spacing(doc)
+    if tp:
+        changes.append(f"Portada: {tp} línea(s) en blanco sobrante(s) quitada(s) (una sola entre título y autor).")
     nf = W.normalize_fonts(doc)
     if nf["fonts"] or nf["sizes"] or nf["colors"]:
         changes.append(f"Fuente/tamaño unificados ({nf['fonts']} fuentes, {nf['sizes']} tamaños)"
