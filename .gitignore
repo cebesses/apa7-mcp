@@ -1,13 +1,27 @@
+# Entornos y cachés de Python
 .venv/
+venv/
 __pycache__/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+
+# Compilación y cobertura
 build/
 dist/
+.coverage
+htmlcov/
+
+# Documentos generados por apa7-tools (no ignora documentos de entrada)
 *.apa7.docx
 *.apa7-*.docx
 .*.tmp.docx
+
+# Archivos temporales y configuración local
 /tmp*/
 /apa7_*/
 /.mcp.json
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

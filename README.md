@@ -16,6 +16,19 @@ Repositorio: [cebesses/apa7-mcp](https://github.com/cebesses/apa7-mcp) · Licenc
 
 El proyecto trabaja con `.docx`; no procesa directamente PDF ni los formatos binarios antiguos de Word (`.doc`). La corrección del contenido académico y los casos ambiguos siguen requiriendo revisión de una persona o del agente.
 
+## Estructura del repositorio
+
+```text
+.
+├── .github/workflows/  # CI y publicación de versiones
+├── src/apa7_mcp/       # servidor MCP, herramientas y reglas APA
+├── tests/              # pruebas automatizadas y comprobaciones auxiliares
+├── CHANGELOG.md        # cambios por versión
+├── LICENSE             # licencia MIT
+├── pyproject.toml      # metadatos, dependencias y configuración
+└── .gitignore          # entornos, cachés y salidas locales
+```
+
 ## Instalación
 
 Instala la versión del repositorio directamente desde GitHub con `pipx`:
