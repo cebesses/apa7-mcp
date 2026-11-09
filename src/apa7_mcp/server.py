@@ -71,13 +71,13 @@ def _summary_of(r: dict) -> dict:
 @mcp.tool(description=(
     "TODO EN UNO: deja un .docx en APA 7 (fuente, doble espacio, márgenes, sangrías, títulos, referencias, tablas, número de página) "
     "y lo valida. Devuelve changes, score antes/después, passed y needs_agent_action. No toca el original (crea *.apa7.docx). "
-    "dry_run simula. accept_tracked_changes acepta control de cambios. running_head solo en trabajos profesionales. " + PROFILE))
+    "Con 3+ tablas o figuras agrega su índice (lists=false lo evita). dry_run simula. accept_tracked_changes acepta control de cambios. running_head solo en trabajos profesionales. " + PROFILE))
 @safe_tool
 def apa7_apply_apa(file_path: str, output_path: str | None = None, running_head: str | None = None,
                    toc: bool = False, page_numbers: bool = True, dry_run: bool = False, overwrite: bool = False,
                    accept_tracked_changes: bool = False, profile: str | dict | None = None,
-                   language: str | None = None) -> dict:
-    return pipeline.apply_apa(file_path, output_path, running_head=running_head, toc=toc, page_numbers=page_numbers,
+                   language: str | None = None, lists: bool = True) -> dict:
+    return pipeline.apply_apa(file_path, output_path, running_head=running_head, toc=toc, page_numbers=page_numbers, lists=lists,
                               dry_run=dry_run, overwrite=overwrite, accept_tracked_changes=accept_tracked_changes, profile=profile, language=language)
 
 

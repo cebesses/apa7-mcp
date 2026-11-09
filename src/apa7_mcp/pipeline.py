@@ -5,6 +5,9 @@ import functools
 import inspect
 import os
 import re
+
+from docx.oxml import parse_xml
+from docx.oxml.ns import nsdecls
 import tempfile
 import time
 
@@ -98,10 +101,119 @@ def _tracked(doc, accept: bool, changes: list[str] | None = None) -> None:
 # ------------------------------------------------------------------ todo en uno
 
 
+LIST_MIN = 3  # con 3 o más tablas (o figuras) se agrega su índice
+
+
+def _field_end(children: list, start: int) -> int:
+    """Índice del hijo del cuerpo donde se cierra el campo que empieza en children[start]."""
+    depth = 0
+    for k in range(start, len(children)):
+        for f in children[k].iter(W.W + "fldChar"):
+            t = f.get(W.W + "fldCharType")
+            depth += t == "begin"
+            depth -= t == "end"
+            if depth == 0 and t == "end":
+                return k
+    return start
+
+
+def _lists_anchor(doc) -> object | None:
+    """Dónde van los índices de tablas/figuras: tras la tabla de contenido, si no tras la portada, si no al inicio (None)."""
+    from .scan import SDT, _is_toc_sdt
+
+    ch = body_children(doc)
+    for k, e in enumerate(ch):
+        if e.tag == SDT and _is_toc_sdt(e):
+            return e
+        if any(re.match(r"^\s*TOC\s+\\o", i.text or "") for i in e.iter(W.W + "instrText")):
+            return ch[_field_end(ch, k)]
+    for e in ch[:20]:
+        if any(b.get(W.W + "type") == "page" for b in e.iter(W.W + "br")):
+            return e
+    return None
+
+
+def seq_captions(doc) -> int:
+    """Rótulos escritos a mano («Tabla 3» y el título en el párrafo siguiente) → rótulo con campo SEQ y título en cursiva en el
+    mismo párrafo, como los que crea apa7_insert_blocks. Sin el campo, el índice de tablas/figuras de Word sale vacío."""
+    infos = scan(doc)
+    by_el = {id(pi.el): pi for pi in infos}
+    n = 0
+    for pi in infos:
+        m = re.match(r"^(Tabla|Table|Figura|Figure)\s+(\d+)$", pi.text)
+        if not m or pi.in_table or any("SEQ" in (i.text or "") for i in pi.el.iter(W.W + "instrText")):
+            continue
+        label = m.group(1).capitalize()
+        nxt = by_el.get(id(pi.el.getnext()))
+        title = nxt.text if nxt is not None and nxt.text and len(nxt.text) <= 200 and not nxt.level and not W.CAPTION.match(nxt.text) else None
+        for r in list(pi.el):
+            if r.tag != W.W + "pPr":
+                pi.el.remove(r)
+        p = pi.p
+
+        def run(xml=None, text=None):
+            r = p.add_run(text) if text is not None else p.add_run()
+            if xml:
+                r._r.append(parse_xml(xml))
+            r.bold = True
+            return r
+
+        run(text=f"{label} ")
+        run(f'<w:fldChar {nsdecls("w")} w:fldCharType="begin"/>')
+        run(f'<w:instrText {nsdecls("w")} xml:space="preserve"> SEQ {label} \\* ARABIC </w:instrText>')
+        run(f'<w:fldChar {nsdecls("w")} w:fldCharType="separate"/>')
+        run(text=m.group(2))
+        run(f'<w:fldChar {nsdecls("w")} w:fldCharType="end"/>')
+        if title:
+            p.add_run().add_break()
+            add_inline(p, title, italic=True)
+            nxt.el.getparent().remove(nxt.el)
+        p.paragraph_format.keep_with_next = True
+        n += 1
+    if n:
+        clear_cache()
+    return n
+
+
+def auto_lists(doc) -> list[str]:
+    """Índice de tablas y de figuras cuando hay LIST_MIN o más y aún no existe. Devuelve los tipos agregados."""
+    texts = [p for p in (pi.text for pi in scan(doc)) if p]
+    instr = " ".join(i.text or "" for i in doc.element.body.iter(W.W + "instrText"))
+    lg_titles = {t.lower() for t in ("Índice de tablas", "Lista de tablas", "List of Tables", "Índice de figuras",
+                                     "Lista de figuras", "List of Figures")}
+    have_titles = {t.lower() for t in texts} & lg_titles
+    kinds = []
+    for kind, pat, word in (("list_of_tables", r"^(?:Tabla|Table)\s+\d+$", ("tabla", "table")),
+                            ("list_of_figures", r"^(?:Figura|Figure)\s+\d+$", ("figura", "figure"))):
+        n = sum(1 for t in texts if re.match(pat, t, re.I))
+        has = re.search(rf'TOC\s+[^"]*\\c\s+"(?:{word[0]}|{word[1]})"', instr, re.I) or any(word[0] in t or word[1] in t for t in have_titles)
+        if n >= LIST_MIN and not has:
+            kinds.append(kind)
+    if not kinds:
+        return []
+    seq_captions(doc)
+    anchor = _lists_anchor(doc)
+    before = body_children(doc)
+    render_blocks(doc, [{"type": k} for k in kinds] + [{"type": "page_break"}], count_existing(doc))
+    seen = {id(e) for e in before}
+    new = [e for e in body_children(doc) if id(e) not in seen]
+    if anchor is None:
+        for e in reversed(new):
+            doc.element.body.insert(0, e)
+    else:
+        for e in new:
+            anchor.addnext(e)
+            anchor = e
+    resolve_markers(doc)
+    W.request_field_update(doc)
+    clear_cache()
+    return kinds
+
+
 @profiled("input_path")
 def apply_apa(input_path: str, output_path: str | None = None, *, running_head: str | None = None,
               toc: bool = False, page_numbers: bool = True, overwrite: bool = False, dry_run: bool = False,
-              accept_tracked_changes: bool = False) -> dict:
+              accept_tracked_changes: bool = False, lists: bool = True) -> dict:
     """Analiza → corrige formato/estructura → valida. Devuelve el informe y lo que debe resolver el agente."""
     t0 = time.perf_counter()
     inp = resolve_input(input_path)
@@ -173,6 +285,11 @@ def apply_apa(input_path: str, output_path: str | None = None, *, running_head: 
             resolve_markers(doc)
             W.request_field_update(doc)
             changes.append("Tabla de contenido insertada (Word pedirá actualizar campos al abrir).")
+    if lists:
+        added = auto_lists(doc)
+        if added:
+            names = {"list_of_tables": "índice de tablas", "list_of_figures": "índice de figuras"}
+            changes.append(f"Agregado {' y '.join(names[k] for k in added)} (hay {LIST_MIN} o más; Word actualiza las páginas al abrir).")
     guard(snap, doc)  # si algo se perdiera, no se escribe nada
 
     if dry_run:

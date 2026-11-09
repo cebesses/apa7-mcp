@@ -298,7 +298,7 @@ def resolve_markers(doc: DocumentT) -> bool:
             paras.append(q)
         # el campo abarca todas las entradas: begin en la primera, end en la última
         first, last = paras[0], paras[-1]
-        begin = [parse_xml(f'<w:r {nsdecls("w")}><w:fldChar w:fldCharType="begin"/></w:r>'),
+        begin = [parse_xml(f'<w:r {nsdecls("w")}><w:fldChar w:fldCharType="begin" w:dirty="true"/></w:r>'),
                  parse_xml(f'<w:r {nsdecls("w")}><w:instrText xml:space="preserve"> {instr} </w:instrText></w:r>'),
                  parse_xml(f'<w:r {nsdecls("w")}><w:fldChar w:fldCharType="separate"/></w:r>')]
         anchor = first._p.pPr if first._p.pPr is not None else None
