@@ -18,7 +18,7 @@ async def main() -> None:
             res = await s.call_tool("apa7_insert_blocks", {"file_path": r"C:\no\existe.docx", "blocks": [{"type": "x"}]})
             assert json.loads(res.content[0].text)["ok"] is False
             # el servidor sigue respondiendo después de los errores
-            res = await s.call_tool("apa7_doctor", {"check_network": False})
+            res = await s.call_tool("apa7_help", {"topic": "doctor", "network": False})
             assert json.loads(res.content[0].text)["ok"] is True
             tools = await s.list_tools()
             print("errores estructurados OK; herramientas:", len(tools.tools))

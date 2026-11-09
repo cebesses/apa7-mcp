@@ -40,7 +40,7 @@ referencias en mayúsculas (español), nombres completos en vez de iniciales, sa
 ### Estadísticos, puntuación y revisión de texto
 - **Símbolos estadísticos en cursiva** (`M`, `SD`, `p`, `t`, `F`, `r`, `n`, `N`…): detecta y corrige, aunque estén en bloques de texto separados; avisa del cero inicial en `p`/`r`.
 - **Puntuación mecánica:** corrige espacios dobles, espacio antes de coma/punto y falta de espacio tras la coma; avisa de palabras repetidas y signos sin emparejar.
-- **Ortografía y gramática:** `apa7_extract_text` entrega los párrafos con índice para que el agente los revise y corrija con `apa7_replace_text`.
+- **Ortografía y gramática:** `apa7_read(mode="text")` entrega los párrafos con índice para que el agente los revise y corrija con `apa7_replace_text`.
 
 ### Verificación de fuentes (`apa7_verify_references`)
 Comprueba que las referencias **existen**: DOI en doi.org y Crossref (compara título, año y autor), artículos en Crossref, libros en
@@ -48,15 +48,27 @@ Open Library y enlaces. `doi_inexistente` y `no_coincide` son señales fuertes d
 falsa (libros e informes suelen no estar en esas bases). **Envía las referencias a servicios externos**, por eso exige `confirm_external=true`.
 
 ### Fuera de alcance
-Ética de investigación, derechos de autor, notas al pie, encabezados de nivel 4-5 «en línea» con el texto. La portada, el resumen y el encabezado
+Ética de investigación, derechos de autor, notas al pie. La portada, el resumen y el encabezado
 abreviado son opcionales y no se exigen.
 
-## Otras herramientas
+## Herramientas (10)
 
-`apa7_extract_text`, `apa7_verify_references`, `apa7_validate_document`, `apa7_analyze_document`, `apa7_analyze_text`, `apa7_read_structure`, `apa7_build_document`,
-`apa7_insert_blocks` (tablas, figuras, gráficos, listas, TOC, portada, referencias), `apa7_replace_text`,
-`apa7_replace_references`, `apa7_format_reference`, `apa7_validate_reference`, `apa7_add_page_numbers`,
-`apa7_format_tables`, `apa7_list_rules`.
+| Herramienta | Para qué |
+|---|---|
+| `apa7_apply_apa` | Todo en uno: corrige, valida y devuelve lo pendiente |
+| `apa7_check` | Valida sin modificar un `.docx`, texto plano o una referencia (`detail="full"` para el detalle) |
+| `apa7_read` | `mode="outline"` (títulos y rótulos con índice) o `mode="text"` (párrafos para revisar redacción) |
+| `apa7_build_document` / `apa7_insert_blocks` | Documento nuevo o contenido nuevo: tablas, figuras, gráficos, listas, TOC, portada |
+| `apa7_replace_text` / `apa7_replace_references` | Correcciones puntuales / lista de referencias completa |
+| `apa7_format_reference` | Arma una referencia APA 7 a partir de sus datos |
+| `apa7_verify_references` | Comprueba que las fuentes existen (pide permiso: usa servicios externos) |
+| `apa7_help` | Catálogo de reglas, tipos de bloque y diagnóstico (`topic="doctor"`) |
+
+## Bajo consumo de tokens
+
+Pocas herramientas con descripciones cortas (≈ 7 000 caracteres de esquemas en total), JSON sin sangría y sin campos vacíos, avisos
+agrupados por regla (conteo + ejemplos) y lectura paginada. En un documento de 300 párrafos, `apa7_check` responde ≈ 1 100 caracteres
+(antes 67 000) y `apa7_read` ≈ 100 (antes 39 000). Una prueba (`tests/test_tokens.py`) impide que vuelva a crecer.
 
 ## Español e inglés
 
@@ -74,12 +86,12 @@ El idioma se **detecta solo** del texto (o se fija con `language: "es" | "en"` e
 | Título de la lista | Referencias | References |
 | Índices | Tabla de contenido, Índice de tablas | Table of Contents, List of Tables |
 
-Se aplican en el análisis, las correcciones automáticas, `apa7_format_reference` / `apa7_validate_reference` y los bloques (`apa7_build_document`, `apa7_insert_blocks`).
+Se aplican en el análisis, las correcciones automáticas, `apa7_format_reference` / `apa7_check(reference=…)` y los bloques (`apa7_build_document`, `apa7_insert_blocks`).
 Los mensajes de la herramienta siguen en español.
 
 ## Perfiles (cada institución es distinta)
 
-`profile` (en `apa7_apply_apa`, `apa7_validate_document`, `apa7_analyze_document`, `apa7_insert_blocks`, `apa7_build_document`, `apa7_replace_references`):
+`profile` (en `apa7_apply_apa`, `apa7_check`, `apa7_insert_blocks`, `apa7_build_document`, `apa7_replace_references`):
 un nombre (`apa7` = Carta, `a4`), la ruta a un `.json`, o un objeto. Si no se indica, se usa `apa7.profile.json` junto al documento (o la variable `APA7_PROFILE`).
 
 ```json
@@ -97,7 +109,7 @@ Las opciones solo valen durante la llamada: no se filtran a la siguiente.
 - **Guardia de integridad:** si una operación fuera a perder tablas, imágenes, enlaces, ecuaciones, secciones o texto, se cancela sin escribir.
 - **Estructuras reales:** controles de contenido (`sdt`), tablas anidadas, varias secciones y «primera página distinta» (número de página en todas),
   tabla de contenido existente (no se reformatea ni se duplica) y control de cambios (`accept_tracked_changes=true` los acepta).
-- **`dry_run=true`** simula `apa7_apply_apa` sin escribir. **`apa7_doctor`** / `python -m apa7_mcp doctor` diagnostican el entorno.
+- **`dry_run=true`** simula `apa7_apply_apa` sin escribir. **`apa7_help(topic="doctor")`** / `python -m apa7_mcp doctor` diagnostican el entorno.
 - Idempotente: aplicar `apa7_apply_apa` dos veces da el mismo documento.
 
 ## Rendimiento

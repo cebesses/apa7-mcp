@@ -70,8 +70,8 @@ checks = {
     "apéndice centrado en página nueva": by["Apéndice A"].alignment is not None and by["Apéndice A"].paragraph_format.page_break_before is True,
     "alt text de la figura": "Distribución de la muestra" in out.element.body.xml and 'descr="Distribución de la muestra"' in out.element.body.xml,
 }
-pend = {i["ruleId"] for i in r["needs_agent_action"]}
-sugg = {i["ruleId"] for i in r["suggestions"]}
+pend = {i["rule"] for i in r["needs_agent_action"]}
+sugg = {i["rule"] for i in r["suggestions"]}
 checks["cita textual sin página detectada (cit-009)"] = "cit-009" in pend
 checks["número en letras sugerido (num-001)"] = "num-001" in sugg
 checks["sigla sin definir sugerida (abr-001)"] = "abr-001" in sugg
@@ -82,6 +82,6 @@ for k, v in checks.items():
     print(("OK  " if v else "FAIL"), k)
 print("tiempo:", r["elapsed_s"], "s | sugerencias:", sorted(sugg))
 for i in r["needs_agent_action"]:
-    print("  pendiente", i["ruleId"], "|", (i.get("citation") or i.get("reference") or i["message"])[:70])
+    print("  pendiente", i["rule"], "|", i["msg"][:70])
 assert not bad, f"fallaron: {bad}"
 print("PRECISIÓN OK")

@@ -380,9 +380,10 @@ def fix_paragraphs(doc: DocumentT) -> dict[str, int]:
         elif eff_align(pi, st) == "center" and len(t) <= 120:
             pf.line_spacing = _ls()
             counts["other"] += 1
-        elif (pi.left or 0) >= 567 and (pi.first or 0) >= 0:  # cita en bloque: conserva sangría izquierda
+        elif (pi.left or 0) >= 567 and (pi.first or 0) >= 0:  # cita en bloque: conserva sangría izquierda, sin espacio extra, sin partirse
             p.alignment = LEFT
-            pf.line_spacing = _ls()
+            _spacing(pf)
+            pf.keep_together = True
             counts["other"] += 1
         elif in_abstract:  # el resumen va en un solo párrafo, sin sangría
             format_body(p, indent=False)

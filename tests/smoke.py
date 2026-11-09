@@ -59,7 +59,7 @@ for c in r["changes"]:
 print("DESPUÉS:", r["after"]["summary"], "| passed:", r["passed"])
 print("PENDIENTE (agente):")
 for i in r["needs_agent_action"]:
-    print("  -", i["ruleId"], i["message"][:100])
+    print("  -", i["rule"], i["msg"][:100])
 
 # ---- 2. Comprobaciones
 out = Document(r["outputPath"])
@@ -95,7 +95,7 @@ built = tmp / "nuevo.docx"
 b = pipeline.build_document(str(built), blocks)
 print("BUILD  :", b)
 v = pipeline.validate_document(str(built))
-print("VALID  :", v["summary"], "| passed:", v["passed"], [i["ruleId"] for i in v["remaining"]])
+print("VALID  :", v["summary"], "| passed:", v["passed"], [i["rule"] for i in v["remaining"]])
 
 # ---- 4. Insertar en existente
 ins = pipeline.insert_blocks(r["outputPath"], str(tmp / "ins.docx"),

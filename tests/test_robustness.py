@@ -41,7 +41,7 @@ def test_missing_file(tmp_path):
 def test_unsupported_extensions(tmp_path, ext, code):
     f = tmp_path / f"a{ext}"
     f.write_bytes(b"hola")
-    r = server.apa7_validate_document(file_path=str(f))
+    r = server.apa7_check(file_path=str(f))
     assert r["ok"] is False and r["error"]["code"] == code
 
 
@@ -73,7 +73,7 @@ def test_directory_and_empty_path(tmp_path):
 
 def test_quoted_path_is_accepted(tmp_path):
     f = corpus.plain_bad(tmp_path / "con espacios.docx")
-    r = server.apa7_validate_document(file_path=f'"{f}"')
+    r = server.apa7_check(file_path=f'"{f}"')
     assert r["ok"] is True
 
 
@@ -215,9 +215,9 @@ def test_fuzz_never_fails_and_output_opens(tmp_path, seed):
     r = server.apa7_apply_apa(file_path=str(f))
     assert r["ok"] is True, r
     Document(r["outputPath"])
-    v = server.apa7_validate_document(file_path=r["outputPath"])
+    v = server.apa7_check(file_path=r["outputPath"])
     assert v["ok"] is True
-    ex = server.apa7_extract_text(file_path=r["outputPath"])
+    ex = server.apa7_read(file_path=r["outputPath"], mode="text")
     assert ex["ok"] is True
 
 
@@ -230,5 +230,5 @@ def test_big_document_speed(tmp_path):
 
 
 def test_doctor_reports_ok():
-    r = server.apa7_doctor(check_network=False)
+    r = server.apa7_help(topic="doctor", network=False)
     assert r["ok"] is True and r["checks"]

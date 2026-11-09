@@ -39,7 +39,7 @@ LEGACY = {
     ".odt": "Es un documento de LibreOffice (.odt). Guárdelo como .docx (Archivo → Guardar como → Word).",
     ".rtf": "Es un archivo RTF. Ábralo en Word y guárdelo como .docx.",
     ".pdf": "Es un PDF: no se puede editar como Word. Conviértalo a .docx primero (Word puede abrir PDFs).",
-    ".txt": "Es texto plano: use apa7_analyze_text o cree un documento con apa7_build_document.",
+    ".txt": "Es texto plano: use apa7_check(text=…) o cree un documento con apa7_build_document.",
 }
 
 
@@ -119,7 +119,7 @@ def classify(exc: BaseException) -> ApaError:
     if isinstance(exc, KeyError):
         return ApaError("INVALID_ARGUMENT", f"Falta o es inválido el campo {exc}.", "Revise la estructura de los parámetros.")
     return ApaError("INTERNAL_ERROR", f"Error inesperado ({type(exc).__name__}): {exc}",
-                    "El archivo original no se modificó. Ejecute apa7_doctor y reporte este mensaje.")
+                    "El archivo original no se modificó. Ejecute apa7_help('doctor') y reporte este mensaje.")
 
 
 def safe_tool(fn: Callable[..., Any]) -> Callable[..., Any]:

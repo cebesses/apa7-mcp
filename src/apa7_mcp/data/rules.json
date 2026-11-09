@@ -687,5 +687,38 @@
    "correct": "Título, línea en blanco, autor",
    "incorrect": "Título, 3-4 líneas en blanco, autor"
   }
+ },
+ {
+  "id": "ref-020",
+  "category": "referencias",
+  "title": "21 o más autores",
+  "description": "Con 21 o más autores: los 19 primeros, puntos suspensivos y el último autor (sin «y»/«&»).",
+  "source": "Manual APA 7, secciones 2.9, 6.25, 9.8 y 2.14",
+  "examples": {
+   "correct": "A., B., … Z.",
+   "incorrect": "Los 25 autores completos"
+  }
+ },
+ {
+  "id": "abs-003",
+  "category": "estructura",
+  "title": "Resumen de 250 palabras como máximo",
+  "description": "El resumen es un solo párrafo de hasta 250 palabras (salvo que la revista o institución indique otro límite).",
+  "source": "Manual APA 7, secciones 2.9, 6.25, 9.8 y 2.14",
+  "examples": {
+   "correct": "Resumen de 180 palabras",
+   "incorrect": "Resumen de 400 palabras"
+  }
+ },
+ {
+  "id": "app-001",
+  "category": "tablas_figuras",
+  "title": "Tablas y figuras de apéndice",
+  "description": "En un apéndice las tablas y figuras se numeran con la letra del apéndice: Tabla A1, Figura B2.",
+  "source": "Manual APA 7, secciones 2.9, 6.25, 9.8 y 2.14",
+  "examples": {
+   "correct": "Tabla A1",
+   "incorrect": "Tabla 5 (en el Apéndice A)"
+  }
  }
 ]

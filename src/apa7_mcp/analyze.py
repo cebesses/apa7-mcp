@@ -11,7 +11,7 @@ from . import options as O
 from . import rules, textrules
 from .rules import issue
 from .scan import PInfo, W, clear_cache, has_toc, eff_align, eff_first, eff_line, eff_size, scan, styles_of
-from .wordfmt import (ABSTRACT, APPENDIX, CAPTION, REF_HEADING, _ref_key, has_page_numbers, lang_is_spanish, reference_italic_missing, title_page_extra_blanks, KEYWORDS, stat_unitalic,
+from .wordfmt import (ABSTRACT, APPENDIX, CAPTION, REF_HEADING, _ref_key, has_page_numbers, reference_italic_missing, title_page_extra_blanks, KEYWORDS, stat_unitalic,
                       reference_range)
 
 EMU_CM = 360000
@@ -236,6 +236,13 @@ def _structure(doc, infos: list[PInfo]) -> list[dict]:
 
     ab = next((k for k, pi in enumerate(infos) if ABSTRACT.match(pi.text)), None)
     if ab is not None:
+        words = 0
+        for pi in infos[ab + 1:]:
+            if pi.level or KEYWORDS.match(pi.text) or pi.page_break_before:
+                break
+            words += len(pi.text.split())
+        if words > 250:
+            out.append(issue("abs-003", "estructura", "warning", f"El resumen tiene {words} palabras: APA 7 recomienda 250 como máximo."))
         nxt = next((pi for pi in infos[ab + 1:] if pi.text), None)
         if nxt is not None and eff_first(nxt, st) > 0:
             out.append(issue("abs-001", "estructura", "warning", "La primera línea del resumen va sin sangría.", autofix=True))
@@ -289,6 +296,13 @@ def _structure(doc, infos: list[PInfo]) -> list[dict]:
         out.append(issue("est-008", "estructura", "warning",
                          f"Portada con {n_blank} línea(s) en blanco de más: deje una sola línea en blanco entre el título y el autor.", autofix=True))
 
+    app = next((pi.i for pi in infos if APPENDIX.match(pi.text) and (not rr or pi.i > rr[0])), None)
+    if app is not None:
+        plain = next((pi.text for pi in infos[app:] if re.match(r"^(?:Tabla|Table|Figura|Figure)\s+\d", pi.text)), None)
+        if plain:
+            out.append(issue("app-001", "tablas_figuras", "info",
+                             f"«{plain[:30]}» está en un apéndice: numérela con la letra del apéndice (Tabla A1, Figura B2).", original=plain[:60]))
+
     rr_stats = reference_range(infos)
     unital = sum(stat_unitalic(pi.el) for pi in infos if pi.text and not (rr_stats and rr_stats[0] <= pi.i < rr_stats[1]))
     if unital:
@@ -323,3 +337,19 @@ def analyze_document(path: str) -> dict:
     rep["score"] = score(allv)
     rep["summary"] = _summary(rep["score"], len(allv), len(rep["citations"]), len(rep["references"]))
     return rep
+
+
+def group_issues(issues: list[dict], examples: int = 2) -> list[dict]:
+    """Un renglón por regla (conteo + ejemplos cortos) en vez de un aviso por aparición."""
+    by: dict[str, list[dict]] = {}
+    for i in issues:
+        by.setdefault(i.get("ruleId", "?"), []).append(i)
+    rank = {"error": 0, "warning": 1, "info": 2}
+    out = []
+    for rid, its in sorted(by.items(), key=lambda kv: (rank.get(kv[1][0].get("severity"), 3), kv[0])):
+        first = its[0]
+        ex = [str(i.get("original") or i.get("citation") or "")[:70] for i in its]
+        out.append({"rule": rid, "sev": first.get("severity"), "n": len(its), "msg": first.get("message"),
+                    "fix": first.get("suggestion"), "auto": first.get("autofix") or None,
+                    "ex": [e for e in dict.fromkeys(ex) if e][:examples]})
+    return out

@@ -33,7 +33,7 @@ def test_forced_font_and_spacing_from_dict(tmp_path):
     assert abs(d.sections[0].left_margin - Cm(2.0)) < 1000  # Word guarda twips: ~0.0001 cm de redondeo
     assert d.styles["Normal"].paragraph_format.line_spacing == 1.5
     v = pipeline.validate_document(r["outputPath"], profile={"font": "Arial", "size": 11, "line_spacing": 1.5, "margin_cm": 2.0})
-    assert not [i for i in v["remaining"] if i["ruleId"] in ("fmt-002", "fmt-003", "fmt-004", "fmt-005")]
+    assert not [i for i in v["remaining"] if i["rule"] in ("fmt-002", "fmt-003", "fmt-004", "fmt-005")]
 
 
 def test_profile_file_next_to_document(tmp_path):
@@ -68,5 +68,5 @@ def test_numbered_headings_flag_silences_warning(tmp_path):
     d.save(f)
     base = pipeline.validate_document(str(f))
     assert base["ok"] if "ok" in base else True
-    ids = lambda r: {i["ruleId"] for i in server.apa7_analyze_document(file_path=str(f), profile=r)["formatIssues"]}  # noqa: E731
+    ids = lambda r: {i["ruleId"] for i in server.apa7_check(file_path=str(f), profile=r, detail="full")["formatIssues"]}  # noqa: E731
     assert "tit-003" in ids(None) and "tit-003" not in ids({"numbered_headings": True})

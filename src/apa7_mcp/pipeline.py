@@ -13,7 +13,7 @@ from docx import Document
 from . import lang as L
 from . import options as O
 from . import wordfmt as W
-from .analyze import analyze_document
+from .analyze import analyze_document, group_issues
 from .blocks import (Block, State, add_inline, body_children, count_existing, move_new, render_blocks, resolve_markers)
 from .errors import ApaError, clean_path, resolve_input
 from .integrity import guard, snapshot
@@ -157,6 +157,9 @@ def apply_apa(input_path: str, output_path: str | None = None, *, running_head: 
     alt = W.fix_alt_text(doc)
     if alt:
         changes.append(f"Texto alternativo agregado a {alt} imagen(es).")
+    if running_head and len(running_head) > 50:
+        raise ApaError("INVALID_ARGUMENT", f"El encabezado abreviado tiene {len(running_head)} caracteres: APA 7 admite 50 como máximo.",
+                       "Acórtelo (va en mayúsculas, alineado a la izquierda; solo en trabajos profesionales).")
     if page_numbers and (running_head or not W.has_page_numbers(doc)):
         W.add_page_numbers(doc, running_head)
         changes.append("Número de página arriba a la derecha" + (" con encabezado abreviado." if running_head else "."))
@@ -190,15 +193,9 @@ def apply_apa(input_path: str, output_path: str | None = None, *, running_head: 
         "before": {"score": before["score"], "issues": before["totalIssues"]},
         "after": {"score": after["score"], "issues": after["totalIssues"], "summary": after["summary"]},
         "passed": not errors and after["score"] >= 80,
-        "needs_agent_action": pending,
-        "suggestions": notes,
+        "needs_agent_action": group_issues(pending),
+        "suggestions": group_issues(notes, 1),
         "elapsed_s": round(time.perf_counter() - t0, 2),
-        "how_to_resolve": (
-            "Para cada pendiente: citas sin referencia → pedir al usuario la fuente o corregir la cita con apa7_replace_text; "
-            "referencias con errores → reescribir con apa7_format_reference y reemplazar la lista con apa7_replace_references; "
-            "tablas/figuras sin rótulo → apa7_insert_blocks; citas textuales sin página → pedir la página al usuario. "
-            "'suggestions' son recomendaciones opcionales (números en letras, siglas). Luego ejecutar apa7_validate_document."
-        ),
     }
 
 
@@ -332,27 +329,6 @@ def replace_references(input_path: str, output_path: str | None, entries: list[s
     return {"outputPath": out, "removed": removed, "written": len(ordered)}
 
 
-@profiled("input_path")
-def add_page_numbers(input_path: str, output_path: str | None, running_head: str | None, overwrite: bool = False) -> dict:
-    inp, doc = _open(input_path)
-    out = resolve_output(inp, output_path, overwrite=overwrite)
-    snap = snapshot(doc)
-    n = W.add_page_numbers(doc, running_head)
-    guard(snap, doc)
-    save_verified(doc, out)
-    return {"outputPath": out, "sections": n}
-
-
-def format_tables(input_path: str, output_path: str | None, overwrite: bool = False) -> dict:
-    inp, doc = _open(input_path)
-    out = resolve_output(inp, output_path, overwrite=overwrite)
-    snap = snapshot(doc)
-    n = W.format_tables(doc)
-    guard(snap, doc)
-    save_verified(doc, out)
-    return {"outputPath": out, "tablesFormatted": n}
-
-
 @profiled("path")
 def analyze_file(path: str) -> dict:
     return analyze_document(resolve_input(path))
@@ -365,7 +341,7 @@ def validate_document(path: str) -> dict:
     errors = [i for i in allv if i["severity"] == "error"]
     warnings = [i for i in allv if i["severity"] == "warning"]
     return {"passed": not errors and r["score"] >= 80, "score": r["score"], "errors": len(errors),
-            "warnings": len(warnings), "summary": r["summary"], "remaining": errors + warnings}
+            "warnings": len(warnings), "summary": r["summary"], "remaining": group_issues(errors + warnings)}
 
 
 # ------------------------------------------------------------------ revisión de texto y verificación de fuentes

@@ -256,6 +256,10 @@ def validate_reference(ref: str, lang: "str | bool | None" = None) -> list[Issue
         out.append(issue("ref-010", "referencias", "error",
                          "El DOI debe ir como enlace https://doi.org/10.xxxx (sin 'doi:' ni dx.doi.org).",
                          suggestion=OLD_DOI.sub(r"https://doi.org/\1", ref), autofix=True, **base))
+    n_auth = len(re.findall(r"[A-ZÁÉÍÓÚÑ][\w'’-]+,\s(?:[A-Z]\.\s?-?){1,3}(?=,|\s(?:y|&|and)\s|\s\()", ref.split("(", 1)[0] + " ("))
+    if n_auth > 20 and not re.search(r"…|\.\s\.\s\.", ref):
+        out.append(issue("ref-020", "referencias", "warning",
+                         f"La referencia lista {n_auth} autores: con 21 o más se escriben los 19 primeros, puntos suspensivos (…) y el último.", **base))
     if URL_TAIL.search(ref):
         out.append(issue("ref-011", "referencias", "warning", "No se coloca punto final después de una URL o DOI.",
                          suggestion=URL_TAIL.sub(r"\1", ref), autofix=True, **base))

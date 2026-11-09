@@ -40,7 +40,7 @@ checks = {
     "coma mal ubicada corregida (' ,y' → ', y')": "espacio, y falta" in text,
     "espacio tras coma agregado": "coma, con" in text and "espacio, después" in text,
 }
-after_ids = {i["ruleId"] for i in r["needs_agent_action"]}
+after_ids = {i["rule"] for i in r["needs_agent_action"]}
 checks["stat-001 resuelto"] = "stat-001" not in after_ids
 checks["palabra repetida avisada (txt-001)"] = "txt-001" in after_ids
 checks["paréntesis sin cerrar avisado (txt-005)"] = "txt-005" in after_ids

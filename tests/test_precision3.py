@@ -38,7 +38,7 @@ def test_reference_italics_are_added_and_idempotent(tmp_path):
     assert "Manual de investigación" in it
     assert "Revista de Educación" in it and "12" in it and "(3)" not in "".join(it)
     assert "Deserción universitaria en Colombia" in it and not any("ed." in t for t in it)
-    assert "ref-017" not in {i["ruleId"] for i in r["needs_agent_action"]}
+    assert "ref-017" not in {i["rule"] for i in r["needs_agent_action"]}
     # segunda pasada: no cambia nada
     r2 = pipeline.apply_apa(r["outputPath"], overwrite=False)
     assert italics(Document(r2["outputPath"])) == it
@@ -72,7 +72,7 @@ def test_long_quote_becomes_block_quote(tmp_path):
     short = next(p for p in d.paragraphs if "Cita corta" in p.text)
     assert "“una frase breve”" in short.text  # las citas cortas se dejan en el texto
     assert any("block quote" in c.lower() or "cita en bloque" in c for c in r["changes"])
-    assert "cit-010" not in {i["ruleId"] for i in r["needs_agent_action"]}
+    assert "cit-010" not in {i["rule"] for i in r["needs_agent_action"]}
 
 
 def test_secondary_citation_checks_the_secondary_source():
@@ -95,5 +95,5 @@ def test_same_author_year_needs_letters():
 
 def test_server_returns_new_issue_ids(tmp_path):
     f = make(tmp_path, ["Referencias", "Gómez, L. (2018). Un libro sin cursiva. Editorial."])
-    r = server.apa7_analyze_document(file_path=str(f))
+    r = server.apa7_check(file_path=str(f), detail="full")
     assert "ref-017" in {i["ruleId"] for i in r["formatIssues"]}

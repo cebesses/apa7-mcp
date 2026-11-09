@@ -1,4 +1,4 @@
-"""Diagnóstico del entorno: python -m apa7_mcp doctor  (o la herramienta apa7_doctor)."""
+"""Diagnóstico del entorno: python -m apa7_mcp doctor  (o apa7_help('doctor'))."""
 from __future__ import annotations
 
 import importlib.metadata as md

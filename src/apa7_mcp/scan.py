@@ -6,10 +6,9 @@ construye una sola vez una tabla id→propiedades efectivas y se lee cada párra
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from docx.document import Document as DocumentT
-from docx.oxml.ns import qn
 from docx.text.paragraph import Paragraph
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"

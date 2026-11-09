@@ -15,7 +15,7 @@ from docx.text.paragraph import Paragraph
 from .charts import render_chart
 from . import lang as L
 from .scan import scan
-from .wordfmt import (CENTER, TARGET, LEFT, REF_HEADING, _fld, fix_runs, format_heading,
+from .wordfmt import (CENTER, TARGET, LEFT, REF_HEADING, format_heading,
                       format_reference, format_table, heading_level, set_rfonts, text_of)
 
 Block = dict[str, Any]
@@ -321,7 +321,7 @@ def move_new(doc: DocumentT, before: list, where: str, paragraph_index: int | No
     new = [e for e in body_children(doc) if id(e) not in seen]
     if where == "end" or not new:
         return
-    paras = [pi.p for pi in scan(doc)]  # mismos índices que apa7_read_structure (sin TOC; incluye controles de contenido)
+    paras = [pi.p for pi in scan(doc)]  # mismos índices que apa7_read (sin TOC; incluye controles de contenido)
     if where == "start":
         for e in reversed(new):
             body.insert(0, e)

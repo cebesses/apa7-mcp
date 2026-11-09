@@ -53,7 +53,7 @@ def test_english_document_is_fixed_with_english_rules(tmp_path):
     assert "10–20" in full
     assert not any(x.rstrip().endswith(".com/page.") for x in t)
     assert " y " not in full.replace("Lee, K. (n.d.)", "")    # nada se tradujo al español
-    ids = {i["ruleId"] for i in r["needs_agent_action"]}
+    ids = {i["rule"] for i in r["needs_agent_action"]}
     assert "cit-007" not in ids and "ref-007" not in ids, r["needs_agent_action"]
 
 
