@@ -720,5 +720,38 @@
    "correct": "Tabla A1",
    "incorrect": "Tabla 5 (en el Apéndice A)"
   }
+ },
+ {
+  "id": "tab-004",
+  "category": "tablas_figuras",
+  "title": "Numeración sin letras",
+  "description": "Tablas y figuras se numeran con arábigos consecutivos, sin sufijos (3a, 3b).",
+  "source": "Purdue OWL (APA 7): General Format, Tables and Figures, Footnotes",
+  "examples": {
+   "correct": "Tabla 3",
+   "incorrect": "Tabla 3a"
+  }
+ },
+ {
+  "id": "est-009",
+  "category": "estructura",
+  "title": "Autor sin grados",
+  "description": "En la portada el nombre del autor no lleva títulos ni grados académicos.",
+  "source": "Purdue OWL (APA 7): General Format, Tables and Figures, Footnotes",
+  "examples": {
+   "correct": "Ana Pérez",
+   "incorrect": "Dra. Ana Pérez, PhD"
+  }
+ },
+ {
+  "id": "fn-001",
+  "category": "texto",
+  "title": "Llamada de nota pegada",
+  "description": "La llamada de nota al pie va en superíndice, sin espacio antes, después de la puntuación y nunca tras una raya.",
+  "source": "Purdue OWL (APA 7): General Format, Tables and Figures, Footnotes",
+  "examples": {
+   "correct": "texto.¹",
+   "incorrect": "texto ¹"
+  }
  }
 ]

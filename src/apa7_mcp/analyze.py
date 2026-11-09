@@ -175,6 +175,13 @@ def _spacing_extra(p_el) -> bool:
     return sp is not None and any(int(sp.get(W + k) or 0) > 0 for k in ("before", "after"))
 
 
+def _title_page_range_of(infos):
+    from .wordfmt import _title_page_range
+
+    r = _title_page_range(infos)
+    return r[1] if r else 0
+
+
 def _structure(doc, infos: list[PInfo]) -> list[dict]:
     st = styles_of(doc)
     lg = L.current()
@@ -302,6 +309,21 @@ def _structure(doc, infos: list[PInfo]) -> list[dict]:
         if plain:
             out.append(issue("app-001", "tablas_figuras", "info",
                              f"«{plain[:30]}» está en un apéndice: numérela con la letra del apéndice (Tabla A1, Figura B2).", original=plain[:60]))
+
+    suf = next((pi.text for pi in infos if re.match(r"^(?:Tabla|Table|Figura|Figure)\s+\d+[a-z]\b", pi.text)), None)
+    if suf:
+        out.append(issue("tab-004", "tablas_figuras", "warning",
+                         f"«{suf[:20]}»: tablas y figuras se numeran 1, 2, 3 sin letras (combine 3a y 3b en una sola).", original=suf[:40]))
+    tp = _title_page_range_of(infos)
+    deg = next((pi.text for pi in infos[:tp] if re.search(r"\b(?:Dr|Dra|PhD|Ph\.D|Mg|Msc|MSc|Lic|Ing)\.?(?=\s|,|$)", pi.text)), None) if tp else None
+    if deg:
+        out.append(issue("est-009", "estructura", "info",
+                         f"«{deg[:50]}»: en la portada el nombre del autor va sin títulos ni grados (Dr., PhD, Lic.).", original=deg[:60]))
+    spaced_fn = sum(1 for pi in infos for r in pi.el.iter(W + "footnoteReference")
+                    if (lambda prev: prev is not None and "".join(t.text or "" for t in prev.iter(W + "t")).endswith((" ", "—")))(r.getparent().getprevious()))
+    if spaced_fn:
+        out.append(issue("fn-001", "texto", "warning",
+                         f"{spaced_fn} llamada(s) de nota al pie con espacio o raya antes: va pegada, después del signo de puntuación.", autofix=False))
 
     rr_stats = reference_range(infos)
     unital = sum(stat_unitalic(pi.el) for pi in infos if pi.text and not (rr_stats and rr_stats[0] <= pi.i < rr_stats[1]))
