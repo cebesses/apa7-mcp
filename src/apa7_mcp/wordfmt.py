@@ -746,7 +746,18 @@ def request_field_update(doc: DocumentT) -> None:
 
 def _ref_key(text: str) -> str:
     """Orden letra por letra (APA 7): sin acentos, sin espacios; 'Brown, J.' antes de 'Brown, J. A.'; mismo autor por año."""
-    return re.sub(r"\s+", "", rules.norm(text))
+    m = re.match(r"^(.*?)\(\s*([^)]*)\)", text)
+    if not m:
+        return (re.sub(r"\s+", "", rules.norm(text)), "", "")
+    who, when = re.sub(r"\s+", "", rules.norm(m.group(1))), m.group(2).lower()
+    y = re.search(r"(\d{4})([a-z]?)", when)
+    if re.search(r"s\.\s?f\.|n\.\s?d\.", when):  # sin fecha primero, luego por año (más antiguo primero), en prensa al final
+        d = "0000"
+    elif re.search(r"en prensa|in press", when):
+        d = "9999" + (re.search(r"-([a-z])$", when).group(1) if re.search(r"-([a-z])$", when) else "")
+    else:
+        d = (y.group(1) + y.group(2)) if y else when
+    return (who, d, re.sub(r"\s+", "", rules.norm(text[m.end():])))
 
 
 def sort_references(doc: DocumentT) -> bool:

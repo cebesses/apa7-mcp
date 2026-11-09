@@ -42,7 +42,7 @@ def _compact_json() -> None:
 _compact_json()
 
 BLOCKS = (
-    "Bloques (type): title{text}; title_page{title,authors(texto|lista),affiliation,course,instructor,due_date}; heading{level 1-5,text}; "
+    "Bloques (type): title{text}; title_page{title,authors(texto|lista),affiliation,course,instructor,due_date,author_note(texto|lista; trabajo profesional)}; heading{level 1-5,text}; "
     "paragraph{text,indent?}; block_quote{text}; list{style:bullet|numbered,items[]}; table{title,header[],rows[][],note?}; "
     "figure{title,image_path|chart{type:bar|line|pie|scatter|hist,labels[],series[{name,values[]}],x_label?,y_label?},width_cm?,alt?,note?}; "
     "toc{levels?,title?}; list_of_tables; list_of_figures; references{entries[]}; page_break. En text: **negrita**, *cursiva*."

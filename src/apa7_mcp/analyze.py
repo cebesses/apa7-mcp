@@ -310,6 +310,15 @@ def _structure(doc, infos: list[PInfo]) -> list[dict]:
             out.append(issue("app-001", "tablas_figuras", "info",
                              f"«{plain[:30]}» está en un apéndice: numérela con la letra del apéndice (Tabla A1, Figura B2).", original=plain[:60]))
 
+    labels = [m for pi in infos for m in [re.match(r"^(Tabla|Table|Figura|Figure)\s+([A-Z]?\d+)\b", pi.text)] if m and len(pi.text) < 25]
+    if labels:
+        prose = " ".join(pi.text for pi in infos if pi.text and not CAPTION.match(pi.text) and len(pi.text) >= 25)
+        uncited = [f"{m.group(1)} {m.group(2)}" for m in labels
+                   if not re.search(rf"\b{m.group(1)}s?\s+(?:\d+\s*(?:,|y|and|a|-|–)\s*)*{re.escape(m.group(2))}\b", prose, re.I)]
+        if uncited:
+            out.append(issue("tab-005", "tablas_figuras", "warning",
+                             f"{len(uncited)} tabla(s)/figura(s) no se mencionan en el texto ({', '.join(uncited[:4])}): "
+                             "cite cada una antes de que aparezca (p. ej., «como muestra la Tabla 1»).", original=uncited[0]))
     suf = next((pi.text for pi in infos if re.match(r"^(?:Tabla|Table|Figura|Figure)\s+\d+[a-z]\b", pi.text)), None)
     if suf:
         out.append(issue("tab-004", "tablas_figuras", "warning",

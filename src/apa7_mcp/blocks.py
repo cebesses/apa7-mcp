@@ -183,6 +183,13 @@ def render_blocks(doc: DocumentT, blocks: list[Block], st: State) -> None:
                          else f"{', '.join(v[:-1])}{',' if conj == 'and' else ''} {conj} {v[-1]}") if v else ""
                 if v:
                     _para(doc, str(v), align=CENTER)
+            note = b.get("author_note")  # portada profesional: ORCID, cambios de afiliación, agradecimientos, contacto
+            if note:
+                _para(doc, "", align=CENTER)
+                _para(doc, "Author Note" if L.current().code == "en" else "Nota del autor", align=CENTER, bold=True)
+                for part in ([note] if isinstance(note, str) else note):
+                    if str(part).strip():
+                        _para(doc, str(part).strip(), first=0.5)
             doc.add_page_break()
         elif t == "heading":
             lvl = int(b["level"])

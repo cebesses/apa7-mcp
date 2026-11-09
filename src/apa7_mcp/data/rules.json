@@ -753,5 +753,16 @@
    "correct": "texto.¹",
    "incorrect": "texto ¹"
   }
+ },
+ {
+  "id": "tab-005",
+  "category": "tablas_figuras",
+  "title": "Tablas y figuras citadas",
+  "description": "Cada tabla y figura se menciona en el texto (por su número) antes de aparecer.",
+  "source": "Purdue OWL (APA 7): Tables and Figures",
+  "examples": {
+   "correct": "como muestra la Tabla 1",
+   "incorrect": "Tabla 1 sin mención en el texto"
+  }
  }
 ]
